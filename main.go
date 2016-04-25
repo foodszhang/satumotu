@@ -30,8 +30,8 @@ func Log() Adapter {
 
 // Adapt wrap all adaters to the handler
 func Adapt(h http.Handler, adapters ...Adapter) http.Handler {
-	for _, adapter := range adapters {
-		h = adapter(h)
+	for i, _ := range adapters {
+		h = adapters[len(adapters)-i-1](h)
 	}
 	return h
 
