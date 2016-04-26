@@ -16,7 +16,7 @@ type Adapter func(http.Handler) http.Handler
 
 // Adapt wrap all adaters to the handler
 func Adapt(h http.Handler, adapters ...Adapter) http.Handler {
-	for i, _ := range adapters {
+	for i := range adapters {
 		h = adapters[len(adapters)-i-1](h)
 	}
 	return h
