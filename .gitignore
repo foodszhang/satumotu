@@ -2,3 +2,4 @@ debug
 *.exe
 *.tmp
 *.swp
+node_modules/

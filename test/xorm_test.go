@@ -30,6 +30,8 @@ func TestCreate(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !has {
+		user.Username = "foods"
+		user.Password = "ffff"
 		affect, err := engine.Insert(user)
 		if err != nil {
 			t.Fatal(err)

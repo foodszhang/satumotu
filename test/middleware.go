@@ -1,10 +1,7 @@
 package satumatu
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
+	"testing"
 )
 
 func timeHandle(w http.ResponseWriter, r *http.Request) {
@@ -12,11 +9,12 @@ func timeHandle(w http.ResponseWriter, r *http.Request) {
 	log.Println(time.Now())
 	log.Println("end")
 }
-func hello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello world")
-}
+
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "helloworld")
+}
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello world")
 }
 
 // Log give some log
@@ -29,7 +27,7 @@ func Log() Adapter {
 		})
 	}
 }
-func main() {
+func TestMiddleWare(t *testing.T) {
 	h := handler{"123"}
 	http.Handle("/", Handle(timeHandle, hello))
 	http.Handle("/adapter", Adapt(h, Log()))
