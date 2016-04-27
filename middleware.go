@@ -8,9 +8,6 @@ type handler struct {
 	name string
 }
 
-// HandlerFunc is the interface for handle function
-type HandlerFunc func(w http.ResponseWriter, r *http.Request)
-
 // Adapter is a wrapper for handler
 type Adapter func(http.Handler) http.Handler
 
@@ -24,7 +21,7 @@ func Adapt(h http.Handler, adapters ...Adapter) http.Handler {
 }
 
 // Handle combine handlers to one handler
-func Handle(handlers ...HandlerFunc) http.Handler {
+func Handle(handlers ...http.HandlerFunc) http.Handler {
 	return http.HandlerFunc(
 		func(w http.ResponseWriter, r *http.Request) {
 			for _, handler := range handlers {

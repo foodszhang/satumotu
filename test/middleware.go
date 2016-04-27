@@ -1,7 +1,11 @@
-package satumatu
+package test
 
 import (
+	"fmt"
+	"log"
+	"net/http"
 	"testing"
+	"time"
 )
 
 func timeHandle(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +32,6 @@ func Log() Adapter {
 	}
 }
 func TestMiddleWare(t *testing.T) {
-	h := handler{"123"}
 	http.Handle("/", Handle(timeHandle, hello))
 	http.Handle("/adapter", Adapt(h, Log()))
 	http.ListenAndServe(":8080", nil)

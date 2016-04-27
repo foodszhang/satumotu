@@ -7,6 +7,9 @@ import (
 	"time"
 )
 
+type Engine struct {
+}
+
 func timeHandle(w http.ResponseWriter, r *http.Request) {
 	log.Println("before")
 	log.Println(time.Now())

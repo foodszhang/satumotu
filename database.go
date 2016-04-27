@@ -25,8 +25,8 @@ func DBInit(dbname, username, password, host, port string) error {
 	if port == "" {
 		port = "5432"
 	}
-	dbstring := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", username,
-		password, dbname)
+	dbstring := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s  sslmode=disable", username,
+		password, dbname, host, port)
 	DB, err = xorm.NewEngine("postgres", dbstring)
 	if err != nil {
 		return err
