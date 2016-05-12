@@ -2,8 +2,9 @@ package test
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
 	"testing"
+
+	_ "github.com/lib/pq"
 )
 
 func TestConnect(t *testing.T) {

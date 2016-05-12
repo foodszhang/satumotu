@@ -1,12 +1,9 @@
 package test
 
 import (
+	"satumatu"
 	"testing"
 	"time"
-
-	"github.com/go-xorm/core"
-	"github.com/go-xorm/xorm"
-	_ "github.com/lib/pq"
 )
 
 type User struct {
@@ -18,21 +15,22 @@ type User struct {
 }
 
 func TestCreate(t *testing.T) {
-	engine, err := xorm.NewEngine("postgres", "user=satumatu password=ssss dbname=satumatu sslmode=disable")
+	err := satumatu.DBInit("satumatu", "satumatu", "ssss", "", "")
+
 	if err != nil {
 		t.Fatal(err)
 	}
-	engine.SetMapper(core.GonicMapper{})
-	err = engine.Sync2(new(User))
+	db := satumatu.DB
+	err = db.Sync2(new(User))
 	user := new(User)
-	has, err := engine.Where("username = ?", "foods").Get(user)
+	has, err := db.Where("username = ?", "foods").Get(user)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !has {
 		user.Username = "foods"
 		user.Password = "ffff"
-		affect, err := engine.Insert(user)
+		affect, err := db.Insert(user)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -40,6 +38,6 @@ func TestCreate(t *testing.T) {
 
 	}
 	nuser := new(User)
-	has, err = engine.Where("username = ?", "foods").Get(nuser)
+	has, err = db.Where("username = ?", "foods").Get(nuser)
 	t.Log(has, nuser)
 }
