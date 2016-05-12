@@ -1,4 +1,4 @@
-package xorm_test
+package test
 
 import (
 	"testing"

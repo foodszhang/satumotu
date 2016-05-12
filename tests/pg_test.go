@@ -1,4 +1,4 @@
-package pg_test
+package test
 
 import (
 	"database/sql"
