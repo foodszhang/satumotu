@@ -4,13 +4,6 @@ import (
 	"net/http"
 )
 
-type handler struct {
-	name string
-}
-
-// Adapter is a wrapper for handler
-type Adapter func(http.Handler) http.Handler
-
 // Adapt wrap all adaters to the handler
 func Adapt(h http.Handler, adapters ...Adapter) http.Handler {
 	for i := range adapters {

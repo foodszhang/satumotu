@@ -1,20 +1,18 @@
-package test
+package satumotu
 
 import (
 	"fmt"
-	"github.com/foodszhang/trie_router"
 	"github.com/gorilla/context"
 	"net/http"
-	"satumotu"
 	"testing"
 )
 
 type UserView struct {
-	satumotu.Controller
+	Controller
 }
 
-func (c *UserView) get(w http.ResponseWriter, r *http.Request) {
-	params := context.Get(r, "params").([]router.Param)
+func (c *UserView) GET(w http.ResponseWriter, r *http.Request) {
+	params := context.Get(r, "params").(map[string]string)
 	for name, value := range params {
 		fmt.Fprintf(w, "%s=%s,", name, value)
 	}
@@ -22,7 +20,7 @@ func (c *UserView) get(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestController(t *testing.T) {
-	root := satumotu.NewRouter(false)
+	root := NewRouter(false)
 	root.Get("/", hello)
 	root.Get("/log", hello, Log())
 	root.Get("/time", timeHandle)
@@ -31,5 +29,8 @@ func TestController(t *testing.T) {
 	root.Get("/name/log", printNameHandle, Log())
 	root.Get("/params/<string:name>/<int:id>", printParams)
 	root.Get("/params/log/<string:action>", printParams, Log())
+	root.Get("/params/<string:action>", printParams, Log())
+	u := NewController((*UserView)(nil))
+	root.AddRouter("/user/<int:id>", []string{"GET"}, u)
 	http.ListenAndServe(":8080", &root)
 }

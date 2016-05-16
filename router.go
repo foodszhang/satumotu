@@ -17,26 +17,56 @@ func NewRouter(hosts bool) Router {
 	return Router{router.CreateRouteNode(), hosts, sync.RWMutex{}}
 }
 
-func (r *Router) AddRouter(url string, methods []string, handle http.HandlerFunc, adapters ...router.Adapter) error {
+type Adapter func(http.Handler) http.Handler
+
+func (a Adapter) Adapt(h http.Handler) http.Handler {
+	return a(h)
+}
+
+func (r *Router) AddRouter(url string, methods []string, handle http.Handler, adapters ...router.Adapter) error {
 	return r.Insert(url, methods, handle, adapters...)
 }
-func (r *Router) Get(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"GET"}, handle, adapters...)
+func (r *Router) Get(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"GET"}, handle, adps...)
 }
-func (r *Router) Post(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"POST"}, handle, adapters...)
+func (r *Router) Post(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"POST"}, handle, adps...)
 }
-func (r *Router) Put(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"PUT"}, handle, adapters...)
+func (r *Router) Put(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"PUT"}, handle, adps...)
 }
-func (r *Router) Delete(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"DELETE"}, handle, adapters...)
+func (r *Router) Delete(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"DELETE"}, handle, adps...)
 }
-func (r *Router) Option(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"OPTION"}, handle, adapters...)
+func (r *Router) Option(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"OPTION"}, handle, adps...)
 }
-func (r *Router) Head(url string, handle http.HandlerFunc, adapters ...router.Adapter) error {
-	return r.Insert(url, []string{"HEAD"}, handle, adapters...)
+func (r *Router) Head(url string, handle http.HandlerFunc, adapters ...Adapter) error {
+	adps := make([]router.Adapter, len(adapters))
+	for i, v := range adapters {
+		adps[i] = v
+	}
+	return r.Insert(url, []string{"HEAD"}, handle, adps...)
 }
 func (r *Router) ServeHTTP(w http.ResponseWriter, request *http.Request) {
 	if request.RequestURI == "*" {

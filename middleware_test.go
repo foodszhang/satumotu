@@ -1,11 +1,10 @@
-package test
+package satumotu
 
 import (
 	"fmt"
 	"github.com/foodszhang/trie_router"
 	"log"
 	"net/http"
-	"satumotu"
 	"testing"
 	"time"
 )
@@ -29,7 +28,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 // Log give some log
-func Log() router.Adapter {
+func Log() Adapter {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
@@ -42,7 +41,7 @@ func Log() router.Adapter {
 }
 func TestMiddleWare(t *testing.T) {
 	h := handler{"123"}
-	http.Handle("/", satumotu.Handle(timeHandle, hello))
+	http.Handle("/", Handle(timeHandle, hello))
 	http.Handle("/adapter", router.Adapt(h, Log()))
 	//http.ListenAndServe(":8080", nil)
 }

@@ -1,11 +1,9 @@
-package test
+package satumotu
 
 import (
 	"fmt"
-	"github.com/foodszhang/trie_router"
 	"github.com/gorilla/context"
 	"net/http"
-	"satumotu"
 	"testing"
 )
 
@@ -14,15 +12,15 @@ func printNameHandle(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, %s!\n", query.Get("name"))
 }
 func printParams(w http.ResponseWriter, r *http.Request) {
-	params := context.Get(r, "params").([]router.Param)
-	for _, p := range params {
-		fmt.Fprintf(w, "%s=%s,", p.Name, p.Value)
+	params := context.Get(r, "params").(map[string]string)
+	for name, value := range params {
+		fmt.Fprintf(w, "%s=%s,", name, value)
 	}
 	fmt.Fprintf(w, "\n")
 }
 
 func TestRouter(t *testing.T) {
-	root := satumotu.NewRouter(false)
+	root := NewRouter(false)
 	root.Get("/", hello)
 	root.Get("/log", hello, Log())
 	root.Get("/time", timeHandle)

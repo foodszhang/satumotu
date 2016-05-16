@@ -1,4 +1,4 @@
-package test
+package satumotu
 
 import (
 	"database/sql"

@@ -1,4 +1,4 @@
-package satumatu
+package satumotu
 
 import (
 	"fmt"

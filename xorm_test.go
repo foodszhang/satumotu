@@ -1,7 +1,6 @@
-package test
+package satumotu
 
 import (
-	"satumatu"
 	"testing"
 	"time"
 )
@@ -15,12 +14,12 @@ type User struct {
 }
 
 func TestCreate(t *testing.T) {
-	err := satumatu.DBInit("satumatu", "satumatu", "ssss", "", "")
+	err := DBInit("satumatu", "satumatu", "ssss", "", "")
 
 	if err != nil {
 		t.Fatal(err)
 	}
-	db := satumatu.DB
+	db := DB
 	err = db.Sync2(new(User))
 	user := new(User)
 	has, err := db.Where("username = ?", "foods").Get(user)

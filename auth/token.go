@@ -1,11 +1,10 @@
-package auth
+package satumotu
 
 import (
 	"crypto/sha1"
 	"encoding/json"
 	"fmt"
 	"math/rand"
-	"satumatu"
 	"time"
 )
 
@@ -36,7 +35,7 @@ func (token *Token) Create(data interface{}, expires int) string {
 
 		//set key value ex time nx
 		tokenStr = fmt.Sprintf("%x", sha1.Sum([]byte(origin)))
-		reply, _ := satumatu.Redis.Do("SET", token.RedisPrefix+tokenStr, str, "ex", expires, "nx")
+		reply, _ := Redis.Do("SET", token.RedisPrefix+tokenStr, str, "ex", expires, "nx")
 		if reply == "OK" {
 			break
 		} else {
